@@ -11,8 +11,10 @@ import (
 )
 
 var opts struct {
+	Host       string `long:"host" env:"APP_HOST" required:"true" description:"host"`
+	Port       int    `long:"port" env:"APP_PORT" required:"true" description:"port"`
 	MongoDbURI string `long:"mongodb-uri" env:"APP_MONGODB_URI" required:"true" description:"mongodb uri"`
-	AppDb      string `long:"appdb" env:"MONGO_APP_DB" required:"true" description:"mongodb app db"`
+	AppDb      string `long:"appdb" env:"APP_DB" required:"true" description:"mongodb app db"`
 }
 
 func main() {
@@ -33,4 +35,8 @@ func main() {
 		log.Fatal().Err(err).Msg("failed to create http server")
 	}
 
+	err = srv.ListenAndServe(opts.Host, opts.Port)
+	if err != nil {
+		log.Error().Err(err).Msg("Failed to ListenAndServe")
+	}
 }

@@ -16,7 +16,7 @@ const (
 	eventsTable     string = "events"
 )
 
-func (p *PubSub) WriteEvent(message string) error {
+func (p *PubSub) AddEvent(message string) error {
 	newEvent := Event{
 		Message: message,
 		Time:     time.Now().UTC(),

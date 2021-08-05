@@ -1,7 +1,12 @@
 package rest
 
 import (
+	"fmt"
 	"github.com/dp0h/mongo-pubsub/pubsub"
+	"github.com/go-chi/chi"
+	"github.com/go-chi/chi/middleware"
+	"github.com/rs/zerolog/log"
+	"net/http"
 )
 
 type Srv struct {
@@ -17,10 +22,16 @@ func NewRestSrv(pubSub *pubsub.PubSub) (*Srv, error) {
 	s.Router = chi.NewRouter()
 	s.Router.Use(middleware.NoCache)
 
-	s.Get("/ping", s.Ping)
+	s.Router.Get("/ping", s.Ping)
 
-	s.Post("/event", s.PostEvent)
-	s.Get("/events", s.GetEvents)
+	s.Router.Post("/event", s.PostEvent)
+	s.Router.Get("/events", s.GetEvents)
 
 	return &s, nil
+}
+
+func (s *Srv) ListenAndServe(host string, port int) error {
+	url := fmt.Sprintf("%s:%d", host, port)
+	log.Info().Str("host", url).Msg("Started server")
+	return http.ListenAndServe(url, s.Router)
 }
