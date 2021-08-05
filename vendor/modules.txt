@@ -1,3 +1,5 @@
+# github.com/coreos/go-systemd v0.0.0-20190321100706-95778dfbb74e
+## explicit
 # github.com/go-stack/stack v1.8.0
 github.com/go-stack/stack
 # github.com/golang/snappy v0.0.1
@@ -13,6 +15,12 @@ github.com/klauspost/compress/zstd
 github.com/klauspost/compress/zstd/internal/xxhash
 # github.com/pkg/errors v0.9.1
 github.com/pkg/errors
+# github.com/rs/zerolog v1.23.0
+## explicit
+github.com/rs/zerolog
+github.com/rs/zerolog/internal/cbor
+github.com/rs/zerolog/internal/json
+github.com/rs/zerolog/log
 # github.com/xdg-go/pbkdf2 v1.0.0
 github.com/xdg-go/pbkdf2
 # github.com/xdg-go/scram v1.0.2
@@ -21,6 +29,8 @@ github.com/xdg-go/scram
 github.com/xdg-go/stringprep
 # github.com/youmark/pkcs8 v0.0.0-20181117223130-1be2e3e5546d
 github.com/youmark/pkcs8
+# github.com/zenazn/goji v0.9.0
+## explicit
 # go.mongodb.org/mongo-driver v1.7.1
 ## explicit
 go.mongodb.org/mongo-driver/bson
@@ -56,10 +66,10 @@ go.mongodb.org/mongo-driver/x/mongo/driver/session
 go.mongodb.org/mongo-driver/x/mongo/driver/topology
 go.mongodb.org/mongo-driver/x/mongo/driver/uuid
 go.mongodb.org/mongo-driver/x/mongo/driver/wiremessage
-# golang.org/x/crypto v0.0.0-20200302210943-78000ba7a073
+# golang.org/x/crypto v0.0.0-20200622213623-75b288015ac9
 golang.org/x/crypto/ocsp
 golang.org/x/crypto/pbkdf2
-# golang.org/x/sync v0.0.0-20190911185100-cd5d95a43a6e
+# golang.org/x/sync v0.0.0-20201020160332-67f06af15bc9
 golang.org/x/sync/errgroup
 golang.org/x/sync/semaphore
 # golang.org/x/sys v0.0.0-20210320140829-1e4c9ba3b0c4
