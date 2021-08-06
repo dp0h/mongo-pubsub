@@ -2,31 +2,33 @@ package pubsub
 
 import (
 	"context"
+	"time"
+
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"time"
 )
 
 type Event struct {
+	ID      int64
 	Message string
-	Time     time.Time
+	Time    time.Time
 }
 
 const (
-	eventsTable     string = "events"
+	eventsTable string = "events"
 )
 
 func (p *PubSub) AddEvent(message string) error {
 	newEvent := Event{
 		Message: message,
-		Time:     time.Now().UTC(),
+		Time:    time.Now().UTC(),
 	}
 	_, err := p.Collection(eventsTable).InsertOne(context.TODO(), newEvent)
 	return err
 }
 
-func (p *PubSub) GetEvents() ([]Event, error) {
-	cur, err := p.Collection(eventsTable).Find(context.TODO(), bson.D{{}}, options.Find())
+func (p *PubSub) GetEvents(topic string) ([]Event, error) {
+	cur, err := p.Collection(topic).Find(context.TODO(), bson.D{{}}, options.Find())
 	if err != nil {
 		return nil, err
 	}
