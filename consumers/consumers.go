@@ -2,7 +2,6 @@ package consumers
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"time"
 
@@ -42,7 +41,6 @@ func Run(pubsub pubsub.PubSub) {
 					if err = cursor.Decode(&event); err != nil {
 						return
 					}
-					fmt.Println(event)
 
 					consumer.Handle(ctx, event)
 					pb.Global.CounterCh <- topic
