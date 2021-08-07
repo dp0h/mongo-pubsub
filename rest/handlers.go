@@ -1,9 +1,13 @@
 package rest
 
 import (
+	"context"
 	"encoding/json"
-	"github.com/rs/zerolog/log"
 	"net/http"
+	"time"
+
+	"github.com/dp0h/mongo-pubsub/pubsub"
+	"github.com/rs/zerolog/log"
 )
 
 func (s *Srv) Ping(w http.ResponseWriter, r *http.Request) {
@@ -23,7 +27,16 @@ func (s *Srv) PostEvent(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = s.pubSub.AddEvent(postEventReq.Message)
+	topic := "v1_mongo_pubsub_event_post"
+	event := &pubsub.Event{
+		ID:      pubsub.Global.CounterMap[topic] + 1,
+		Message: postEventReq.Message,
+		Time:    time.Now().UTC(),
+	}
+	ctx, cancel := context.WithTimeout(context.TODO(), 5*time.Second)
+	defer cancel()
+
+	err = s.pubSub.Publishers()[topic].Push(ctx, event)
 	if err != nil {
 		log.Info().Err(err).Msg("Error while adding event")
 		w.WriteHeader(http.StatusInternalServerError)
@@ -35,7 +48,8 @@ func (s *Srv) PostEvent(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Srv) GetEvents(w http.ResponseWriter, r *http.Request) {
-	events, err := s.pubSub.GetEvents()
+	topic := "v1_mongo_pubsub_events_get"
+	events, err := s.pubSub.GetEvents(topic)
 	if err != nil {
 		log.Warn().Err(err).Msg("Error while getting events")
 		w.WriteHeader(http.StatusBadRequest)
